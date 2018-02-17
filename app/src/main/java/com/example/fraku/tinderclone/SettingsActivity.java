@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         getUserInfo();
-
+        //wywolanie galeri i pobranie zdjecia do imageview
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
         mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //Pobrani danych z serwera oraz sprawdznenie domyslne lub inne zdjecie do image view
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     if(map.get("name")!=null){
@@ -134,7 +135,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveUserInformation() {
         name = mNameField.getText().toString();
         phone = mPhoneField.getText().toString();
+        //Zapisanie nowch/zmienionych danych w google Firebase
 
+        //Map dodaje do bazy danych
         Map userInfo = new HashMap();
         userInfo.put("name", name);
         userInfo.put("phone", phone);

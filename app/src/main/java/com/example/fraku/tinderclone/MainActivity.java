@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.fraku.tinderclone.Cards.Cards;
 import com.example.fraku.tinderclone.Cards.arrayAdapter;
+import com.example.fraku.tinderclone.Matches.MatchesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -54,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         rowItems = new ArrayList<Cards>();
-
+        //przypsianie layoutu adapterowi
         arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems );
-
+        //biblioteka do przesówania kart
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         flingContainer.setAdapter(arrayAdapter);
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Cards obj = (Cards) dataObject;
                 String userId = obj.getUserId();
+                //dodanie do bazy Firebase połaczenia Nie
                 usersDb.child(userId).child("connections").child("nope").child(currentUId).setValue(true);
                 Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
             }
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             public void onRightCardExit(Object dataObject) {
                 Cards obj = (Cards) dataObject;
                 String userId = obj.getUserId();
+                //dodanie do bazy Firebase połaczenia Tak
                 usersDb.child(userId).child("connections").child("yeps").child(currentUId).setValue(true);
                 isConnectionMatch(userId);
                 Toast.makeText(MainActivity.this, "Right", Toast.LENGTH_SHORT).show();
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+    //Sprawdzanie czy uzytkownicy sie połączyli jesli tak to wyswietla sie toast
     private void isConnectionMatch(String userId) {
         DatabaseReference currentUserConnectionsDb = usersDb.child(currentUId).child("connections").child("yeps").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String userSex;
     private String oppositeUserSex;
+
+    //sprawdzanie pluci uzytkowników jesli mezczyzna szuka kobiety i na odwrot
     public void checkUserSex(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userDb = usersDb.child(user.getUid());
@@ -154,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void getOppositeSexUsers(){
-
+    //uzysaknie przeciwnej lub usatwionej pluci z ktora nie ma jeszcze reakcji tak/nie
         usersDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
