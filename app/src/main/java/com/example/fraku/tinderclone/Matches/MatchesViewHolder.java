@@ -2,6 +2,7 @@ package com.example.fraku.tinderclone.Matches;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fraku.tinderclone.R;
@@ -12,14 +13,18 @@ import com.example.fraku.tinderclone.R;
 //Wyglad tu wszysto z Matches activity buttony textView itp.
 public class MatchesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
-    public TextView mMatchesId;
+    public TextView mMatchId,mMatchName;
+    public ImageView mMatchImage;
 
 
     public MatchesViewHolder(View itemView){
         super(itemView);
         itemView.setOnClickListener(this);
 
-        mMatchesId = (TextView)itemView.findViewById(R.id.Matchid);
+        mMatchId = (TextView)itemView.findViewById(R.id.Matchid);
+        mMatchName = (TextView)itemView.findViewById(R.id.MatchName);
+
+        mMatchImage = (ImageView)itemView.findViewById(R.id.MatchImage);
 
 
     }
